@@ -3,16 +3,16 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CreateOrderDto, TicketsI } from './dto/order.dto';
-import { Order } from './schemas/order.schema';
+
 import { FilmsService } from '../films/films.service';
+import { CreateOrderDto } from './dto/order.dto';
+import { Order } from './entities/order.entity';
+import { OrdersRepository } from 'src/repository/order.repository';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectModel('Order') private readonly orderModel: Model<Order>,
+    private readonly ordersRepository: OrdersRepository,
     private readonly filmsService: FilmsService,
   ) {}
 
@@ -36,17 +36,19 @@ export class OrderService {
       if (session.taken.includes(seatId)) {
         throw new ConflictException(`Seat ${seatId} is already taken`);
       }
-
-      session.taken.push(seatId);
-      film.save();
+      const seats = session.taken.split(',');
+      seats.push(seatId);
+      const takenSeats = seats.join(',');
+      session.taken = takenSeats;
+      this.filmsService.saveFilm(film);
+      await this.filmsService.findAll();
     }
 
-    const order = new this.orderModel({
-      email,
-      phone,
-      tickets,
-    });
+    const order = new Order();
+    order.email = email;
+    order.phone = phone.toString();
+    order.tickets = tickets;
 
-    return order.save();
+    return this.ordersRepository.createOrder(order);
   }
 }
