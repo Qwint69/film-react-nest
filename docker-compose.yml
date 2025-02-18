@@ -1,4 +1,3 @@
-
 services:
   backend:
     build: ./backend
@@ -21,21 +20,30 @@ services:
       - frontend_volume:/app/dist
     networks:
       - app_network
+
+    depends_on:
+      - backend
     env_file:
       - frontend/.env
 
+    ports:
+      - "80:80"
+
   db:
-    image: postgres:15
+    image: postgres
     container_name: postgres_db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: film_nest
-      POSTGRES_USER: qwint
-      POSTGRES_PASSWORD: qwint69
+      POSTGRES_DB: prac
+      POSTGRES_USER: prac
+      POSTGRES_PASSWORD: prac
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backend/test/prac.init.sql:/docker-entrypoint-initdb.d/prac.init.sql
+    env_file:
+      - backend/.env
     networks:
       - app_network
 
@@ -47,7 +55,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:80"
+      - "8080:8080"
     networks:
       - app_network
 

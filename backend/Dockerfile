@@ -13,7 +13,9 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY --from=builder /app /app
+
 RUN npm install --only=production
+
 
 CMD ["node", "dist/main"]
 EXPOSE 3000
