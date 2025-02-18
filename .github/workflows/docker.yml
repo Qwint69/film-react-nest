@@ -27,6 +27,14 @@ jobs:
 
     steps:
 
+      - name: "Ls the directory"
+        run: |
+          ls
+
+      - name: "pwd the directory"
+        run: |
+          pwd
+
       - name: 'Create frontend env file'
         run: |
           touch ./frontend/.env
