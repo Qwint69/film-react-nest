@@ -27,6 +27,8 @@ jobs:
 
     steps:
 
+      - uses: actions/checkout@v2
+
       - name: "Ls the directory"
         run: |
           ls
@@ -55,9 +57,6 @@ jobs:
           echo NODE_ENV=development >> ./backend/.env
           echo LOG_FORMAT=dev >> ./backend/.env
           cat ./backend/.env
-
-      
-      - uses: actions/checkout@v2
 
       - name: Build image
         run: docker compose -f docker-compose.yml build 
