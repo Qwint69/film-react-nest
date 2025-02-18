@@ -26,6 +26,29 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
+
+      - name: 'Create frontend env file'
+        run: |
+          touch frontend/.env
+          echo VITE_API_URL=https://stub.practicum-team.ru/api/afisha >> frontend/.env
+          echo VITE_CDN_URL=https://stub.practicum-team.ru/content/afisha >> frontend/.env
+          cat frontend/.env
+
+      - name: 'Create backend env file'
+        run: |
+          touch backend/.env
+          echo DATABASE_DRIVER=postgres >> backend/.env
+          echo DATABASE_URL="postgresql://db:5432/prac" >> backend/.env
+          echo DATABASE_HOST=db >> backend/.env
+          echo DATABASE_PORT=5432 >> backend/.env
+          echo DATABASE_USERNAME=prac >> backend/.env
+          echo DATABASE_PASSWORD=prac >> backend/.env
+          echo DATABASE_NAME=prac >> backend/.env
+          echo NODE_ENV=development >> backend/.env
+          echo LOG_FORMAT=dev >> backend/.env
+          cat backend/.env
+
+      
       - uses: actions/checkout@v2
 
       - name: Build image
