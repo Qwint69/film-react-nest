@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { FilmsRepository } from 'src/repository/films.repository';
+
 import { Film } from './entities/film.entity.';
 import { Schedule } from './entities/schedule.entity';
+import { FilmsRepository } from '../repository/films.repository';
 
 @Injectable()
 export class FilmsService {
