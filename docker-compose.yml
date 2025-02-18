@@ -1,7 +1,7 @@
 services:
   backend:
     build: ./backend
-    image: image: ghcr.io/qwint69/film-react-nest/backend:latest  
+    image: ghcr.io/qwint69/film-react-nest/backend:latest  
     container_name: backend
     restart: unless-stopped
     env_file:
