@@ -4,7 +4,6 @@ http://qwint.nomorepartiesco.ru/
 
 http://qwint.nomorepartiesco.ru:3000/
 
-
 ## Установка
 
 ### MongoDB

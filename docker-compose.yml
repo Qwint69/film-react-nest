@@ -23,8 +23,6 @@ services:
     networks:
       - app_network
 
-    depends_on:
-      - backend
     env_file:
       - frontend/.env
 
