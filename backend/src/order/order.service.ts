@@ -7,7 +7,7 @@ import {
 import { FilmsService } from '../films/films.service';
 import { CreateOrderDto } from './dto/order.dto';
 import { Order } from './entities/order.entity';
-import { OrdersRepository } from 'src/repository/order.repository';
+import { OrdersRepository } from '../repository/order.repository';
 
 @Injectable()
 export class OrderService {

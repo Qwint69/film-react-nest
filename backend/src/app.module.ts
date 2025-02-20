@@ -13,6 +13,10 @@ import { Schedule } from './films/entities/schedule.entity';
 import { Order } from './order/entities/order.entity';
 import { FilmsRepository } from './repository/films.repository';
 import { OrdersRepository } from './repository/order.repository';
+import { Logger } from '@nestjs/common';
+import { JsonLogger } from './logger/json.logger';
+import { DevLogger } from './logger/dev.logger';
+import { TskvLogger } from './logger/tskv.logger';
 
 @Module({
   imports: [
@@ -48,6 +52,15 @@ import { OrdersRepository } from './repository/order.repository';
     FilmsService,
     OrderService,
     configProvider,
+    {
+      provide: Logger,
+      useClass:
+        process.env.LOG_FORMAT === 'tskv'
+          ? TskvLogger
+          : process.env.NODE_ENV === 'production'
+            ? JsonLogger
+            : DevLogger,
+    },
   ],
 })
 export class AppModule {}
